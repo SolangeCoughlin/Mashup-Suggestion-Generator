@@ -1,5 +1,5 @@
 from flask import Flask, render_template
-import os, json, random, requests
+import os, json, random
 
 # Configuration
  
