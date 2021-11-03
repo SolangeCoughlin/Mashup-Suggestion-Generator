@@ -1,0 +1,10 @@
+<h5>Song Information:</h5>
+
+<table>
+    {%for key in keys%}
+    <tr>
+        <th>{{key}}</th>
+        <td>{{data[key]}}</td>
+    </tr>
+    {%endfor%}
+</table>
