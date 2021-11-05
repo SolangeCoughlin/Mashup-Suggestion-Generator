@@ -25,7 +25,7 @@ def display_song():
     song_api_url = 'https://api-mashup-neesjo.herokuapp.com/api/recommendation'
     song_rec_data = {"seed_genres":"pop,rock,jazz"}
     response = requests.post(song_api_url, data=song_rec_data)
-    return response
+    return response.text
 
 
     #return render_template('display_song.html', keys = song_info_keys, data = this_song_dict[index])
