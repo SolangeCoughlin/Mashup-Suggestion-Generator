@@ -12,6 +12,14 @@ def get_dict_from_json(json_file):
     song_dict = json.loads(fjson.read())
     return song_dict
 
+# Receives one track dict object and returns the artist as a string
+def get_artist(track_dict):
+    artist = track_dict["artists"][0]["name"]
+    return artist
+
+def get_title(track_dict):
+    title = track_dict["name"]
+    return title
 
 # Routes 
 
@@ -25,10 +33,14 @@ def display_song():
     song_api_url = 'https://api-mashup-neesjo.herokuapp.com/api/recommendation'
     song_rec_data = {"seed_genres":"pop,rock,jazz"}
     response = requests.post(song_api_url, data=song_rec_data)
-    return response.json()
+    response = response.json()
+
+    track = response["track_1"]
+    song_dict = {"Artist": get_artist(track), "Title": get_title(track)}
+    song_dict_keys = song_dict.keys()
 
 
-    #return render_template('display_song.html', keys = song_info_keys, data = this_song_dict[index])
+    return render_template('display_song.html', keys = song_dict_keys, data = song_dict)
 
 @app.route('/tutorial')
 def tutorial():
