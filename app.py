@@ -1,5 +1,5 @@
 from flask import Flask, render_template
-import os, json, random
+import os, json, random, requests
 
 # Configuration
  
@@ -21,10 +21,14 @@ def root():
 
 @app.route('/display-song', methods=['POST'])
 def display_song():
-    this_song_dict = get_dict_from_json('song_dict.json')["songs"]
-    index = random.randrange(0, len(this_song_dict))
-    song_info_keys = this_song_dict[index].keys()
-    return render_template('display_song.html', keys = song_info_keys, data = this_song_dict[index])
+    
+    song_api_url = 'https://api-mashup-neesjo.herokuapp.com/api/recommendation'
+    song_rec_data = {"seed_genres":"pop,rock,jazz"}
+    response = requests.post(song_api_url, data=song_rec_data)
+    return response
+
+
+    #return render_template('display_song.html', keys = song_info_keys, data = this_song_dict[index])
 
 @app.route('/tutorial')
 def tutorial():
