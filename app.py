@@ -47,7 +47,7 @@ def display_song():
     response = requests.post(song_api_url, data=song_rec_data)
     response = response.json()
 
-    # Render information for one of the songs on the page
+    # Render information for one of t   he songs on the page
     track = response["track_1"]
     song_dict = {"Artist": get_artist(track), "Title": get_title(track)}
     song_dict_keys = song_dict.keys()
