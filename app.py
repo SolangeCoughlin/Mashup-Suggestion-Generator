@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 import os, json, random, requests
 
 # Configuration
@@ -29,9 +29,18 @@ def root():
 
 @app.route('/display-song', methods=['POST'])
 def display_song():
-    
+
     song_api_url = 'https://api-mashup-neesjo.herokuapp.com/api/recommendation'
-    song_rec_data = {"seed_genres":"pop,rock,jazz"}
+    
+    criteria = request.form
+    single_genre = criteria["seed_genres"]
+    genre = f'{single_genre},{single_genre},{single_genre}'
+    song_rec_data = {"seed_genres":genre}
+    
+    for item in criteria:
+        if criteria[item] != "none":
+            song_rec_data[item] = criteria[item]
+
     response = requests.post(song_api_url, data=song_rec_data)
     response = response.json()
 
