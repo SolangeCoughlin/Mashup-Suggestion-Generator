@@ -32,18 +32,22 @@ def display_song():
 
     song_api_url = 'https://api-mashup-neesjo.herokuapp.com/api/recommendation'
     
+    # Get criteria values from form on the home page and format the genre seed into the format required
     criteria = request.form
     single_genre = criteria["seed_genres"]
     genre = f'{single_genre},{single_genre},{single_genre}'
     song_rec_data = {"seed_genres":genre}
     
+    # Add only items that have been filled out by the user to the data object holding values for microservice call
     for item in criteria:
         if criteria[item] != "none":
             song_rec_data[item] = criteria[item]
 
+    # Make a call to the microservice using data supplied by the user and get the microservice response as a json
     response = requests.post(song_api_url, data=song_rec_data)
     response = response.json()
 
+    # Render information for one of the songs on the page
     track = response["track_1"]
     song_dict = {"Artist": get_artist(track), "Title": get_title(track)}
     song_dict_keys = song_dict.keys()
