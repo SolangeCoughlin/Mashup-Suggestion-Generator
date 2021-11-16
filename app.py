@@ -40,19 +40,18 @@ def display_song():
     
     # Add only items that have been filled out by the user to the data object holding values for microservice call
     for item in criteria:
-        if criteria[item] != "none":
+        if criteria[item] != "none" and item != "seed_genres":
             song_rec_data[item] = criteria[item]
 
     # Make a call to the microservice using data supplied by the user and get the microservice response as a json
     response = requests.post(song_api_url, data=song_rec_data)
     response = response.json()
+    print(response)
 
     # Render information for one of t   he songs on the page
-    track = response["track_1"]
+    track = response["track_2"]
     song_dict = {"Artist": get_artist(track), "Title": get_title(track)}
     song_dict_keys = song_dict.keys()
-
-
     return render_template('display_song.html', keys = song_dict_keys, data = song_dict)
 
 @app.route('/tutorial')
