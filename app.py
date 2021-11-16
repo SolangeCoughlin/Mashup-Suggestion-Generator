@@ -46,13 +46,20 @@ def display_song():
     # Make a call to the microservice using data supplied by the user and get the microservice response as a json
     response = requests.post(song_api_url, data=song_rec_data)
     response = response.json()
-    print(response)
 
-    # Render information for one of t   he songs on the page
-    track = response["track_2"]
-    song_dict = {"Artist": get_artist(track), "Title": get_title(track)}
-    song_dict_keys = song_dict.keys()
-    return render_template('display_song.html', keys = song_dict_keys, data = song_dict)
+    # Render information for one of the songs on the page
+    suggestions = {}
+    for track in response:
+        print("track is " + track)
+        this_track = response[track]
+        song_dict = {"Artist": get_artist(this_track), "Title": get_title(this_track)}
+        song_dict_keys = song_dict.keys()
+        suggestions[this_track] = {"keys": song_dict_keys}
+        suggestions[this_track] = {"song_dict": song_dict}
+    print(response)
+    return response
+    #return suggestions
+    #return render_template('display_song.html', keys = song_dict_keys, data = song_dict)
 
 @app.route('/tutorial')
 def tutorial():
