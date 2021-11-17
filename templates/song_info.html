@@ -1,11 +1,11 @@
 <h5>Song Information:</h5>
 
-{%for track in tracks%}
+{%for track in data%}
     <table>
         {%for key in keys%}
         <tr>
             <th>{{key}}</th>
-            <td>{{data[key]}}</td>
+            <td>{{data[track][key]}}</td>
         </tr>
         {%endfor%}
     </table>

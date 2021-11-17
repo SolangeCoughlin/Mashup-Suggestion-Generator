@@ -34,8 +34,7 @@ def display_song():
     
     # Get criteria values from form on the home page and format the genre seed into the format required
     criteria = request.form
-    single_genre = criteria["seed_genres"]
-    genre = f'{single_genre},{single_genre},{single_genre}'
+    genre = f'{criteria["seed_genre1"]},{criteria["seed_genre2"]},{criteria["seed_genre3"]}'
     song_rec_data = {"seed_genres":genre}
     
     # Add only items that have been filled out by the user to the data object holding values for microservice call
@@ -54,12 +53,8 @@ def display_song():
         this_track = response[track]
         song_dict = {"Artist": get_artist(this_track), "Title": get_title(this_track)}
         song_dict_keys = song_dict.keys()
-        suggestions[this_track] = {"keys": song_dict_keys}
-        suggestions[this_track] = {"song_dict": song_dict}
-    print(response)
-    return response
-    #return suggestions
-    #return render_template('display_song.html', keys = song_dict_keys, data = song_dict)
+        suggestions[track] = song_dict
+    return render_template('display_song.html', keys = song_dict_keys, data = suggestions)
 
 @app.route('/tutorial')
 def tutorial():
