@@ -9,38 +9,12 @@
         <th>First Genre</th>
         <td>
         <select id="seed_genre1" name="seed_genre1">
-            <option value="none">-</option>
-            <option value="bluegrass">Bluegrass</option>
-            <option value="country">Country</option>
-            <option value="dubstep">Dubstep</option>
-            <option value="folk">Folk</option>
-            <option value="funk">Funk</option>
-            <option value="k-pop">K-Pop</option>
-            <option value="metal">Metal</option>
-            <option value="pop">Pop</option>
-            <option value="punk">Punk</option>
-            <option value="r-n-b">R&B</option>
-            <option value="rock">Rock</option>
-            <option value="soul">Soul</option>     
-            <option value="trance">Trance</option>   
+            {%include 'genre_options.html'%}
         </select>
         </td>
         <td>
             <select id="2_seed_genre1" name="2_seed_genre1">
-                <option value="none">-</option>
-                <option value="bluegrass">Bluegrass</option>
-                <option value="country">Country</option>
-                <option value="dubstep">Dubstep</option>
-                <option value="folk">Folk</option>
-                <option value="funk">Funk</option>
-                <option value="k-pop">K-Pop</option>
-                <option value="metal">Metal</option>
-                <option value="pop">Pop</option>
-                <option value="punk">Punk</option>
-                <option value="r-n-b">R&B</option>
-                <option value="rock">Rock</option>
-                <option value="soul">Soul</option>     
-                <option value="trance">Trance</option>   
+                {%include 'genre_options.html'%}   
         </select>
         </td>
     </tr>
@@ -48,38 +22,12 @@
         <th>Second Genre</th>
         <td>
             <select id="seed_genre2" name="seed_genre2">
-                <option value="none">-</option>
-                <option value="bluegrass">Bluegrass</option>
-                <option value="country">Country</option>
-                <option value="dubstep">Dubstep</option>
-                <option value="folk">Folk</option>
-                <option value="funk">Funk</option>
-                <option value="k-pop">K-Pop</option>
-                <option value="metal">Metal</option>
-                <option value="pop">Pop</option>
-                <option value="punk">Punk</option>
-                <option value="r-n-b">R&B</option>
-                <option value="rock">Rock</option>
-                <option value="soul">Soul</option>     
-                <option value="trance">Trance</option>   
+                {%include 'genre_options.html'%}   
             </select>
         </td>
         <td>
             <select id="2_seed_genre2" name="2_seed_genre2">
-                <option value="none">-</option>
-                <option value="bluegrass">Bluegrass</option>
-                <option value="country">Country</option>
-                <option value="dubstep">Dubstep</option>
-                <option value="folk">Folk</option>
-                <option value="funk">Funk</option>
-                <option value="k-pop">K-Pop</option>
-                <option value="metal">Metal</option>
-                <option value="pop">Pop</option>
-                <option value="punk">Punk</option>
-                <option value="r-n-b">R&B</option>
-                <option value="rock">Rock</option>
-                <option value="soul">Soul</option>     
-                <option value="trance">Trance</option>   
+                {%include 'genre_options.html'%}   
             </select>
         </td>
     </tr>
@@ -87,38 +35,12 @@
         <th>Third Genre</th>
         <td>
             <select id="seed_genre3" name="seed_genre3">
-                <option value="none">-</option>
-                <option value="bluegrass">Bluegrass</option>
-                <option value="country">Country</option>
-                <option value="dubstep">Dubstep</option>
-                <option value="folk">Folk</option>
-                <option value="funk">Funk</option>
-                <option value="k-pop">K-Pop</option>
-                <option value="metal">Metal</option>
-                <option value="pop">Pop</option>
-                <option value="punk">Punk</option>
-                <option value="r-n-b">R&B</option>
-                <option value="rock">Rock</option>
-                <option value="soul">Soul</option>     
-                <option value="trance">Trance</option>   
+                {%include 'genre_options.html'%}   
             </select>
         </td>
         <td>
             <select id="2_seed_genre3" name="2_seed_genre3">
-                <option value="none">-</option>
-                <option value="bluegrass">Bluegrass</option>
-                <option value="country">Country</option>
-                <option value="dubstep">Dubstep</option>
-                <option value="folk">Folk</option>
-                <option value="funk">Funk</option>
-                <option value="k-pop">K-Pop</option>
-                <option value="metal">Metal</option>
-                <option value="pop">Pop</option>
-                <option value="punk">Punk</option>
-                <option value="r-n-b">R&B</option>
-                <option value="rock">Rock</option>
-                <option value="soul">Soul</option>     
-                <option value="trance">Trance</option>   
+                {%include 'genre_options.html'%}   
             </select>
         </td>
     </tr>
@@ -127,20 +49,12 @@
         <th>Target Tempo</th>
         <td>
             <select id="target_tempo" name="target_tempo">
-                <option value="none">-</option>
-                <option value="60">60</option>
-                <option value="90">90</option>
-                <option value="120">120</option>
-                <option value="160">160</option>
+                {%include 'tempo_options.html'%}
             </select>
         </td>
         <td>
             <select id="2_target_tempo" name="2_target_tempo">
-                <option value="none">-</option>
-                <option value="60">60</option>
-                <option value="90">90</option>
-                <option value="120">120</option>
-                <option value="160">160</option>
+                {%include 'tempo_options.html'%}
             </select>
         </td>
     </tr>
@@ -148,36 +62,12 @@
         <th>Target Key</th>
         <td>
             <select id="target_key" name="target_key">
-                <option value="none">-</option>
-                <option value=0>C</option>
-                <option value=1>C#/Db</option>
-                <option value=2>D</option>
-                <option value=3>D#/Eb</option>
-                <option value=4>E</option>
-                <option value=5>F</option>
-                <option value=6>F#/Gb</option>
-                <option value=7>G</option>
-                <option value=8>G#/Ab</option>
-                <option value=9>A</option>
-                <option value=10>A#/Bb</option>
-                <option value=11>B</option>
+                {%include 'key_options.html'%}
             </select>        
         </td>
         <td>
             <select id="2_target_key" name="2_target_key">
-                <option value="none">-</option>
-                <option value=0>C</option>
-                <option value=1>C#/Db</option>
-                <option value=2>D</option>
-                <option value=3>D#/Eb</option>
-                <option value=4>E</option>
-                <option value=5>F</option>
-                <option value=6>F#/Gb</option>
-                <option value=7>G</option>
-                <option value=8>G#/Ab</option>
-                <option value=9>A</option>
-                <option value=10>A#/Bb</option>
-                <option value=11>B</option>
+                {%include 'key_options.html'%}
             </select>
         </td>
     </tr>
@@ -185,34 +75,12 @@
         <th>Target Valence</th>
         <td>
             <select id="target_valence" name="target_valence">
-                <option value="none">-</option>
-                <option value=0>0 - More negative</option>
-                <option value=0.1>0.1</option>
-                <option value=0.2>0.2</option>
-                <option value=0.3>0.3</option>
-                <option value=0.4>0.4</option>
-                <option value=0.5>0.5</option>
-                <option value=0.6>0.6</option>
-                <option value=0.7>0.7</option>
-                <option value=0.8>0.8</option>
-                <option value=0.9>0.9</option>
-                <option value=1>1 - More positive</option>
+                {%include 'valence_options.html'%}
             </select>
         </td>
         <td>
             <select id="2_target_valence" name="2_target_valence">
-                <option value="none">-</option>
-                <option value=0>0 - More negative</option>
-                <option value=0.1>0.1</option>
-                <option value=0.2>0.2</option>
-                <option value=0.3>0.3</option>
-                <option value=0.4>0.4</option>
-                <option value=0.5>0.5</option>
-                <option value=0.6>0.6</option>
-                <option value=0.7>0.7</option>
-                <option value=0.8>0.8</option>
-                <option value=0.9>0.9</option>
-                <option value=1>1 - More positive</option>
+                {%include 'valence_options.html'%}
             </select>
         </td>
     </tr>
@@ -220,34 +88,12 @@
         <th>Target Danceability</th>
         <td>
             <select id="target_danceability" name="target_danceability">
-                <option value="none">-</option>
-                <option value=0>0 - Less danceable</option>
-                <option value=0.1>0.1</option>
-                <option value=0.2>0.2</option>
-                <option value=0.3>0.3</option>
-                <option value=0.4>0.4</option>
-                <option value=0.5>0.5</option>
-                <option value=0.6>0.6</option>
-                <option value=0.7>0.7</option>
-                <option value=0.8>0.8</option>
-                <option value=0.9>0.9</option>
-                <option value=1>1 - More danceable</option>
+                {%include 'danceability_options.html'%}
             </select>
         </td>
         <td>
             <select id="2_target_danceability" name="2_target_danceability">
-                <option value="none">-</option>
-                <option value=0>0 - Less danceable</option>
-                <option value=0.1>0.1</option>
-                <option value=0.2>0.2</option>
-                <option value=0.3>0.3</option>
-                <option value=0.4>0.4</option>
-                <option value=0.5>0.5</option>
-                <option value=0.6>0.6</option>
-                <option value=0.7>0.7</option>
-                <option value=0.8>0.8</option>
-                <option value=0.9>0.9</option>
-                <option value=1>1 - More danceable</option>
+                {%include 'danceability_options.html'%}
             </select>
         </td>
     </tr>
