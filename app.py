@@ -21,19 +21,8 @@ def get_title(track_dict):
     title = track_dict["name"]
     return title
 
-# Routes 
-
-@app.route('/')
-def root():
-    return render_template('home.html')
-
-@app.route('/display-song', methods=['POST'])
-def display_song():
-
-    song_api_url = 'https://api-mashup-neesjo.herokuapp.com/api/recommendation'
-    
-    # Get criteria values from form on the home page and format the genre seed into the format required
-    criteria = request.form
+# Receives form object, and formats it into a dict that can be passed to microservice API. Returns this dict
+def format_criteria_obj(criteria):
     genre = f'{criteria["seed_genre1"]},{criteria["seed_genre2"]},{criteria["seed_genre3"]}'
     song_rec_data = {"seed_genres":genre}
     
@@ -42,19 +31,48 @@ def display_song():
         if criteria[item] != "none" and item != "seed_genres":
             song_rec_data[item] = criteria[item]
 
-    # Make a call to the microservice using data supplied by the user and get the microservice response as a json
-    response = requests.post(song_api_url, data=song_rec_data)
-    response = response.json()
+    return song_rec_data
 
-    # Render information for one of the songs on the page
+# Receives a dict containing the form data the user entered, already formatted for the microservice, and returns a response from the microservice
+# in json format.
+def make_spotify_call(song_rec_data):
+    song_api_url = 'https://api-mashup-neesjo.herokuapp.com/api/recommendation'
+    response = requests.post(song_api_url, data=song_rec_data)
+    
+    return response.json()
+
+# Receives a response in json format and returns a dict containing the Artist and Title of the two songs suggested.
+def format_suggestions(response):
     suggestions = {}
     for track in response:
         print("track is " + track)
         this_track = response[track]
         song_dict = {"Artist": get_artist(this_track), "Title": get_title(this_track)}
-        song_dict_keys = song_dict.keys()
         suggestions[track] = song_dict
-    return render_template('display_song.html', keys = song_dict_keys, data = suggestions)
+
+    return suggestions
+
+# Routes 
+
+@app.route('/')
+def root():
+    return render_template('home.html')
+
+@app.route('/display-song', methods=['POST'])
+def display_song():
+    
+    # Get criteria values from form on the home page and format the genre seed into the format required
+    criteria = request.form
+    song_rec_data = format_criteria_obj(criteria)
+
+    # Make a call to the microservice using data supplied by the user and get the microservice response as a json
+    response = make_spotify_call(song_rec_data)
+
+    # Render information for two songs on the page
+    suggestions = format_suggestions(response)
+
+    keys = ["Artist", "Title"]
+    return render_template('display_song.html', keys = keys, data = suggestions)
 
 @app.route('/tutorial')
 def tutorial():
