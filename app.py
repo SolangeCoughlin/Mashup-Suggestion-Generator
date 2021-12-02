@@ -21,15 +21,26 @@ def get_title(track_dict):
     title = track_dict["name"]
     return title
 
-# Receives form object, and formats it into a dict that can be passed to microservice API. Returns this dict
+# Receives form object, and formats it into a dict that can be passed to microservice API. Returns this dict.
+# The dict contains a dict for track 1, and a dict for track 2
 def format_criteria_obj(criteria):
-    genre = f'{criteria["seed_genre1"]},{criteria["seed_genre2"]},{criteria["seed_genre3"]}'
-    song_rec_data = {"seed_genres":genre}
     
+    song_rec_data = {}
+
+    genre = f'{criteria["seed_genre1"]},{criteria["seed_genre2"]},{criteria["seed_genre3"]}'
+    song_rec_data["track_1"] = {"seed_genres": genre}
+
+    # There will be no track 2 if table isn't filled out
+    if "2_seed_genre1" in criteria and criteria["2_seed_genre1"] != "none":
+        genre = f'{criteria["2_seed_genre1"]},{criteria["2_seed_genre2"]},{criteria["2_seed_genre3"]}'
+        song_rec_data["track_2"] = {"seed_genres": genre}
+        
     # Add only items that have been filled out by the user to the data object holding values for microservice call
     for item in criteria:
-        if criteria[item] != "none" and item != "seed_genres":
-            song_rec_data[item] = criteria[item]
+        if criteria[item] != "none" and "seed_genre" not in item and "2_" not in item:
+            song_rec_data["track_1"][item] = criteria[item]
+        if criteria[item] != "none" and "seed_genre" not in item and "2_" in item:
+            song_rec_data["track_2"][item] = criteria[item]
 
     return song_rec_data
 
@@ -45,7 +56,6 @@ def make_spotify_call(song_rec_data):
 def format_suggestions(response):
     suggestions = {}
     for track in response:
-        print("track is " + track)
         this_track = response[track]
         song_dict = {"Artist": get_artist(this_track), "Title": get_title(this_track)}
         suggestions[track] = song_dict
@@ -63,16 +73,38 @@ def display_song():
     
     # Get criteria values from form on the home page and format the genre seed into the format required
     criteria = request.form
+
+    # Raise an error if seed_genre1 for song 1 is empty. Needed to make Spotify call
+    if criteria["seed_genre1"] == "none" or criteria["seed_genre2"] == "none" or criteria["seed_genre3"] == "none":
+        error_message="All three genres must be filled out for the First Song"
+        return render_template('home.html', error_message = error_message)
+
+    # For both the following error handlers, user's must fill out either all genres, or no genres for Second Song
+    if criteria["2_seed_genre1"] == "none" and (criteria["2_seed_genre2"] != "none" or criteria["2_seed_genre3"] != "none"):
+        error_message="If a separate search for the Second Song is desired, all three Second Song genres must be filled out"
+        return render_template('home.html', error_message = error_message)
+
+    if criteria["2_seed_genre1"] != "none" and (criteria["2_seed_genre2"] == "none" or criteria["2_seed_genre3"] == "none"):
+        error_message="If a separate search for the Second Song is desired, all three Second Song genres must be filled out"
+        return render_template('home.html', error_message = error_message)
+
     song_rec_data = format_criteria_obj(criteria)
 
     # Make a call to the microservice using data supplied by the user and get the microservice response as a json
-    response = make_spotify_call(song_rec_data)
+    song_1_response = make_spotify_call(song_rec_data["track_1"])
+    song_2_response = None
+    if len(song_rec_data) > 1:
+        song_2_response = make_spotify_call(song_rec_data["track_2"])
 
     # Render information for two songs on the page
-    suggestions = format_suggestions(response)
-
+    song_suggestions = format_suggestions(song_1_response)
+    if song_2_response:
+        song_suggestions_2 = format_suggestions(song_2_response)
+        song_suggestions["track_2"] = song_suggestions_2["track_1"]
     keys = ["Artist", "Title"]
-    return render_template('display_song.html', keys = keys, data = suggestions)
+    
+    
+    return render_template('display_song.html', keys = keys, data = song_suggestions)
 
 @app.route('/tutorial')
 def tutorial():
