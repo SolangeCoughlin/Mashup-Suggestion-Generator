@@ -62,6 +62,23 @@ def format_suggestions(response):
 
     return suggestions
 
+# Checks if the input to the form is valid. If it returns True, there is invalid input.
+def input_error(criteria):
+
+    result = False
+    # Raise an error if seed_genre1 for song 1 is empty. Needed to make Spotify call
+    if criteria["seed_genre1"] == "none" or criteria["seed_genre2"] == "none" or criteria["seed_genre3"] == "none":
+        result = True
+
+    # For both the following error handlers, user's must fill out either all genres, or no genres for Second Song
+    if criteria["2_seed_genre1"] == "none" and (criteria["2_seed_genre2"] != "none" or criteria["2_seed_genre3"] != "none"):
+        result = True
+
+    if criteria["2_seed_genre1"] != "none" and (criteria["2_seed_genre2"] == "none" or criteria["2_seed_genre3"] == "none"):
+        result = True
+
+    return result
+
 # Routes 
 
 @app.route('/')
@@ -74,20 +91,10 @@ def display_song():
     # Get criteria values from form on the home page and format the genre seed into the format required
     criteria = request.form
 
-    # Raise an error if seed_genre1 for song 1 is empty. Needed to make Spotify call
-    if criteria["seed_genre1"] == "none" or criteria["seed_genre2"] == "none" or criteria["seed_genre3"] == "none":
-        error_message="All three genres must be filled out for the First Song"
+    if input_error(criteria):
+        error_message="Make sure at least First Song has all three genres filled out"
         return render_template('home.html', error_message = error_message)
-
-    # For both the following error handlers, user's must fill out either all genres, or no genres for Second Song
-    if criteria["2_seed_genre1"] == "none" and (criteria["2_seed_genre2"] != "none" or criteria["2_seed_genre3"] != "none"):
-        error_message="If a separate search for the Second Song is desired, all three Second Song genres must be filled out"
-        return render_template('home.html', error_message = error_message)
-
-    if criteria["2_seed_genre1"] != "none" and (criteria["2_seed_genre2"] == "none" or criteria["2_seed_genre3"] == "none"):
-        error_message="If a separate search for the Second Song is desired, all three Second Song genres must be filled out"
-        return render_template('home.html', error_message = error_message)
-
+    
     song_rec_data = format_criteria_obj(criteria)
 
     # Make a call to the microservice using data supplied by the user and get the microservice response as a json
@@ -102,7 +109,6 @@ def display_song():
         song_suggestions_2 = format_suggestions(song_2_response)
         song_suggestions["track_2"] = song_suggestions_2["track_1"]
     keys = ["Artist", "Title"]
-    
     
     return render_template('display_song.html', keys = keys, data = song_suggestions)
 
